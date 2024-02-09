@@ -70,15 +70,38 @@
         async function getText(file) {
           let myObject = await fetch(file);
           let myText = await myObject.text();
-          const responseContainer = myText.getElementsByClassName("MCDropDownHotSpot");
+          const responseContainer = document.getElementsByClassName("MCDropDownHotSpot");
           
 
           console.log(responseContainer.innerHTML);
           //myDisplay(myText);
         }
         
-        file = "http://localhost:8000/Prod-Blue/Content/AmazonOne/Manuals/Amazon%20One%20Gen%203%20Install%20Guide/install-gen3-amazon-one-countertop-mount.htm?tocpath=Amazon%20One%7CManuals%7CAmazon%20One%20Gen%203%20Install%20Guide%7C_____1";
-        getText(file);
+        file = "http://localhost:8080/Prod-Blue/Content/AmazonOne/Manuals/Amazon%20One%20Gen%203%20Install%20Guide/install-gen3-amazon-one-countertop-mount.htm";
+        //getText(file);
+        
+        // Fetch the HTML page
+        fetch(file)
+          .then(response => response.text())
+          .then(html => {
+            // Create a temporary element to parse the HTML string
+            const tempElement = document.createElement('div');
+            //const tempElementClass = tempElement.className = "container";
+            //.className = "container"
+            tempElement.innerHTML = html;
+            console.log(tempElement);
+            // Find elements with the class "MCDropDownHotSpot"
+            const dropdownItems = tempElement.querySelectorAll('.MCDropDownHotSpot');
+            const h1 = tempElement.querySelector('H1');
+            document.body.appendChild(h1);
+            // Display the dropdown items
+            dropdownItems.forEach(item => {
+              // Append each dropdown item to the body, you can change this to append to a specific container
+              document.body.appendChild(item.cloneNode(true));
+            });
+          })
+          .catch(error => console.error('Error fetching HTML:', error));
+
 
     </script>
   </body>
