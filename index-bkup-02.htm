@@ -8,7 +8,7 @@
     <meta name="author" content="">
     <link rel="icon" href="favicon.ico">
 
-    <title>Guided Workflows</title>
+    <title>Sticky Footer Navbar Template for Bootstrap</title>
 
     <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/sticky-footer-navbar/">
 
@@ -24,7 +24,7 @@
     <header>
       <!-- Fixed navbar -->
       <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-        <a class="navbar-brand" href="#">Guided Workflows</a>
+        <a class="navbar-brand" href="#">Fixed navbar</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -51,7 +51,7 @@
     <!-- Begin page content -->
     <main role="main" class="container">
       <div id="stepHeader" style="font-size: 16pt;"></div>
-      <div id="lastUpdated"></div>
+
       <div id="stepsNav">
         <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
           <button type="button" class="btn btn-outline-secondary">Steps: </button>
@@ -75,15 +75,9 @@
     <div id="stepsBody">
       <nav>
         <div class="nav nav-tabs" id="nav-tab" role="tablist">
-          <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Steps</button>
-
-          <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Tools</button>
-
-          <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Video</button>
-
-          <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Troubleshooting</button>
-
-          <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Feedback</button>
+          <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Home</button>
+          <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Profile</button>
+          <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Contact</button>
         </div>
       </nav>
       <div class="tab-content" id="nav-tabContent">
@@ -93,12 +87,15 @@
       </div>
 
     </div>
-     
+      <!-- <h1 class="mt-5">Sticky footer with fixed navbar</h1>
+      <p class="lead">Pin a fixed-height footer to the bottom of the viewport in desktop browsers with this custom HTML and CSS. A fixed navbar has been added with <code>padding-top: 60px;</code> on the <code>body &gt; .container</code>.</p>
+      <p>Back to <a href="../sticky-footer/">the default sticky footer</a> minus the navbar.</p>
+      -->
     </main>
 
     <footer class="footer">
       <div class="container">
-        <span class="text-muted">Amazon Confidential</span>
+        <span class="text-muted">Place sticky footer content here.</span>
       </div>
     </footer>
 
@@ -112,6 +109,8 @@
           let myObject = await fetch(file);
           let myText = await myObject.text();
           const responseContainer = document.getElementsByClassName("MCDropDownHotSpot");
+          
+
           console.log(responseContainer.innerHTML);
           //myDisplay(myText);
         }
@@ -124,42 +123,64 @@
         fetch(file)
           .then(response => response.text())
           .then(html => {
+            // Create a temporary element to parse the HTML string
+            //const tempElement = document.createElement('div');
+            //const tempElementClass = tempElement.className = "container";
+            //.className = "container"
+            //tempElement.innerHTML = html;
+            //const htmlPage = html;
             const mainTag = document.querySelector('main');
             
             const parser = new DOMParser();
             const page = parser.parseFromString(html, 'text/html');
             const h1 = page.querySelector('H1');
-
+            //console.log("h1 = " + h1.textContent);
+            //mainTag.innerHTML += h1.textContent;
             document.getElementById("stepHeader").innerText = h1.textContent;
+            //console.log(htmlPage);
 
-            const dropdownItems = page.querySelectorAll('.MCDropDown');
+            const dropdownItems = document.querySelectorAll('.MCDropDown');
             const arraySteps = Array.from(dropdownItems);
-            console.log(arraySteps.length);
-            console.log(arraySteps[0]);
-
-            const revisionHistory = arraySteps[0];
-            //const row = document.querySelector('table tr'); // Select the table row
-            const cells = revisionHistory.querySelectorAll('td'); // Select all td elements within the row
-            const lastUpdatedDate = page.querySelectorAll('table tr td')[0].innerHTML;
-            const lastUpdatedComment = page.querySelectorAll('table tr td')[1].innerHTML;
-            const lastUpdatedAuthor = page.querySelectorAll('table tr td')[2].innerHTML;
-
-            document.getElementById("lastUpdated").innerHTML = "<b>Last updated:</b> "+lastUpdatedDate + " <i class='fas fa-info-circle'></i>";
-            console.log(lastUpdatedDate);
-            console.log(lastUpdatedComment);
-            console.log(lastUpdatedAuthor);
-            
-            /*
-            secondRow.forEach(cell => {
-                console.log(cell.textContent); // Output the content of each td element
-            });
-            console.log("secondRow = "+ secondRow.innerHTML);
-            */
-
             
             document.getElementById("nav-home").innerHTML = arraySteps[1].innerHTML;
-            document.getElementById("nav-profile").innerHTML = arraySteps[2].innerHTML;
-            document.getElementById("nav-contact").innerHTML = arraySteps[3].innerHTML;
+            //mainTag.innerHTML = html;
+            
+            //console.log(tempElement);
+            // Find elements with the class "MCDropDownHotSpot"
+            //const dropdownItems = tempElement.querySelectorAll('.MCDropDown');
+            //const array = Array.from(dropdownItems);
+            //console.log("array.length = "+array.length);
+            //console.log("array[1] = "+array[1].innerHTML);
+            //mainTag.innerHTML = array[1].innerHTML;
+
+            //const h1 = tempElement.querySelector('H1');
+            //const imgTag = tempElement.querySelectorAll('img');
+            //mainTag.appendChild(h1);
+            
+            //console.log('dropdownItems = ' + dropdownItems);
+            //mainTag.innerHTML = h1;
+            //console.log(typeof dropdownItems);
+            // Display the dropdown items
+            /*
+            imgTag.forEach(item => {
+              img = item.src;
+              img = img.replace('http://localhost:8080', '');
+              img = img.replace('Resources', 'Prod-Blue/Content/Resources'+img);
+              //item.src = 'Prod-Blue/Content/'+item.src;
+              //console.log(img);
+            });
+            */
+
+            /*
+            dropdownItems.forEach((item, index) => {
+              // Append each dropdown item to the body, you can change this to append to a specific container
+              //mainTag.appendChild(item.cloneNode(true));
+              mainTag.innerHTML += "<p>"+index+"</p>";
+              //mainTag.innerHTML += "<p>"+item.innerHTML+"</p>";
+              //const dropdownBody = item.querySelector('.MCDropDownBody');
+              
+            });
+            */
 
           })
           .catch(error => console.error('Error fetching HTML:', error));

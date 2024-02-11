@@ -1,0 +1,136 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="favicon.ico">
+
+    <title>Sticky Footer Navbar Template for Bootstrap</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/sticky-footer-navbar/">
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/sticky-footer-navbar.css" rel="stylesheet">
+  </head>
+
+  <body>
+
+    <header>
+      <!-- Fixed navbar -->
+      <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <a class="navbar-brand" href="#">Fixed navbar</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Link</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link disabled" href="#">Disabled</a>
+            </li>
+          </ul>
+          <form class="form-inline mt-2 mt-md-0">
+            <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+          </form>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Begin page content -->
+    <main role="main" class="container">
+      <!-- <h1 class="mt-5">Sticky footer with fixed navbar</h1>
+      <p class="lead">Pin a fixed-height footer to the bottom of the viewport in desktop browsers with this custom HTML and CSS. A fixed navbar has been added with <code>padding-top: 60px;</code> on the <code>body &gt; .container</code>.</p>
+      <p>Back to <a href="../sticky-footer/">the default sticky footer</a> minus the navbar.</p>
+      -->
+    </main>
+
+    <footer class="footer">
+      <div class="container">
+        <span class="text-muted">Place sticky footer content here.</span>
+      </div>
+    </footer>
+
+   
+    <script src="js/jquery-3.2.1.slim.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+
+    <script>
+        async function getText(file) {
+          let myObject = await fetch(file);
+          let myText = await myObject.text();
+          const responseContainer = document.getElementsByClassName("MCDropDownHotSpot");
+          
+
+          console.log(responseContainer.innerHTML);
+          //myDisplay(myText);
+        }
+        
+        file = "http://localhost:8000/Prod-Blue/Content/AmazonOne/Runbooks/replace-ao-g3-kiosk.htm";
+        file = "http://localhost:8000/Prod-Blue/Content/AmazonOne/Manuals/Amazon%20One%20Gen%203%20Install%20Guide/install-gen3-amazon-one-countertop-mount.htm"
+        //getText(file);
+        
+        // Fetch the HTML page
+        fetch(file)
+          .then(response => response.text())
+          .then(html => {
+            // Create a temporary element to parse the HTML string
+            const tempElement = document.createElement('div');
+            //const tempElementClass = tempElement.className = "container";
+            //.className = "container"
+            tempElement.innerHTML = html;
+            const mainTag = document.querySelector('main');
+            
+            //mainTag.innerHTML = html;
+            
+            //console.log(tempElement);
+            // Find elements with the class "MCDropDownHotSpot"
+            const dropdownItems = tempElement.querySelectorAll('.MCDropDown');
+            const array = Array.from(dropdownItems);
+            console.log("array.length = "+array.length);
+            console.log("array[1] = "+array[1].innerHTML);
+
+            const h1 = tempElement.querySelector('H1');
+            const imgTag = tempElement.querySelectorAll('img');
+            mainTag.appendChild(h1);
+            
+            //console.log('dropdownItems = ' + dropdownItems);
+            //mainTag.innerHTML = h1;
+            //console.log(typeof dropdownItems);
+            // Display the dropdown items
+            imgTag.forEach(item => {
+              img = item.src;
+              img = img.replace('http://localhost:8080', '');
+              img = img.replace('Resources', 'Prod-Blue/Content/Resources'+img);
+              //item.src = 'Prod-Blue/Content/'+item.src;
+              //console.log(img);
+            });
+
+            dropdownItems.forEach((item, index) => {
+              // Append each dropdown item to the body, you can change this to append to a specific container
+              //mainTag.appendChild(item.cloneNode(true));
+              mainTag.innerHTML += "<p>"+index+"</p>";
+              //mainTag.innerHTML += "<p>"+item.innerHTML+"</p>";
+              //const dropdownBody = item.querySelector('.MCDropDownBody');
+              
+            });
+          })
+          .catch(error => console.error('Error fetching HTML:', error));
+
+
+          //const createPage = () => {}
+    </script>
+  </body>
+</html>
