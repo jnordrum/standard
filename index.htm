@@ -17,6 +17,8 @@
 
     <!-- Custom styles for this template -->
     <link href="css/sticky-footer-navbar.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="media/bootstrap-icons/font/bootstrap-icons.min.css">
   </head>
 
   <body>
@@ -51,7 +53,7 @@
     <!-- Begin page content -->
     <main role="main" class="container">
       <div id="stepHeader" style="font-size: 16pt;"></div>
-      <div id="lastUpdated"></div>
+      <div id="lastUpdated"><span id="updatedDate"></span><span id="updatedDateInfo"><i id="rev-history" class="bi bi-info-circle" data-toggle="tooltip" data-placement="top" title="Tooltip on top"></i></span></div>
       <div id="stepsNav">
         <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
           <button type="button" class="btn btn-outline-secondary">Steps: </button>
@@ -75,6 +77,8 @@
     <div id="stepsBody">
       <nav>
         <div class="nav nav-tabs" id="nav-tab" role="tablist">
+          <button class="nav-link" id="nav-overview-tab" data-bs-toggle="tab" data-bs-target="#nav-overview" type="button" role="tab" aria-controls="nav-overview" aria-selected="true">Overview</button>
+
           <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Steps</button>
 
           <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Tools</button>
@@ -102,7 +106,8 @@
       </div>
     </footer>
 
-   
+   <div id="htmlPage" style="visibility: hidden;"></div>
+
     <!-- <script src="js/jquery-3.2.1.slim.min.js"></script>
     <script src="js/popper.min.js"></script> -->
     <script src="js/bootstrap.bundle.min.js"></script>
@@ -116,9 +121,18 @@
           //myDisplay(myText);
         }
         
-        file = "http://localhost:8000/Prod-Blue/Content/AmazonOne/Runbooks/replace-ao-g3-kiosk.htm";
-        file = "http://localhost:8000/Prod-Blue/Content/AmazonOne/Manuals/Amazon%20One%20Gen%203%20Install%20Guide/install-gen3-amazon-one-countertop-mount.htm"
+        //file = "http://localhost:8000/Prod-Blue/Content/AmazonOne/Runbooks/replace-ao-g3-kiosk.htm";
+        //file = "http://localhost:8000/Prod-Blue/Content/AmazonOne/Manuals/Amazon%20One%20Gen%203%20Install%20Guide/install-gen3-amazon-one-countertop-mount.htm";
+        file = "http://localhost:8000/standard/Prod-Blue/Content/Gates/Manuals/Iron%20Lotus/replace-iron-lotus-amazonone.htm";
         //getText(file);
+
+        let steps = [];
+        let other = [];
+        let tools = [];
+        let parts = [];
+
+        const parser = new DOMParser();
+
         
         // Fetch the HTML page
         fetch(file)
@@ -126,45 +140,120 @@
           .then(html => {
             const mainTag = document.querySelector('main');
             
-            const parser = new DOMParser();
+            
             const page = parser.parseFromString(html, 'text/html');
-            const h1 = page.querySelector('H1');
+            
+            document.getElementById("htmlPage").innerHTML = page;
 
+            var tempPage = document.createElement("div");
+            tempPage.innerHTML = html;
+
+            //Set H1 on page
+            const h1 = tempPage.querySelector('H1');
             document.getElementById("stepHeader").innerText = h1.textContent;
 
-            const dropdownItems = page.querySelectorAll('.MCDropDown');
-            const arraySteps = Array.from(dropdownItems);
-            console.log(arraySteps.length);
-            console.log(arraySteps[0]);
+            
+            const images = tempPage.getElementsByTagName("img");
 
+            // Iterate through each <img> element
+            for (var i = 0; i < images.length; i++) {
+              // Replace the href attribute with a new URL
+              //console.log("images["+i+"].src = " + images[i].src);
+              let imgTmp = new String(images[i].src);
+              imgTmp = imgTmp.substr(imgTmp.indexOf("/Images/"));
+              //console.log("imgTmp = " + imgTmp);
+              imgTmpSrc = "/Prod-Blue/Content/Resources" + imgTmp;
+              images[i].setAttribute("src", imgTmpSrc);
+              //console.log("images["+i+"].src = " + images[i].src);
+              //console.log(images[i].src);
+            }
+            //console.log(tempPage);
+            /**
+            **/
+
+            const dropdownItems = tempPage.querySelectorAll('.MCDropDown');
+            const arraySteps = Array.from(dropdownItems);
+            //console.log(arraySteps.length);
+            //console.log(arraySteps[0]);
+
+
+            //REVISION HISTORY
             const revisionHistory = arraySteps[0];
             //const row = document.querySelector('table tr'); // Select the table row
             const cells = revisionHistory.querySelectorAll('td'); // Select all td elements within the row
-            const lastUpdatedDate = page.querySelectorAll('table tr td')[0].innerHTML;
-            const lastUpdatedComment = page.querySelectorAll('table tr td')[1].innerHTML;
-            const lastUpdatedAuthor = page.querySelectorAll('table tr td')[2].innerHTML;
+            const lastUpdatedDate = tempPage.querySelectorAll('table tr td')[0].innerHTML;
+            const lastUpdatedComment = tempPage.querySelectorAll('table tr td')[1].innerHTML;
+            const lastUpdatedAuthor = tempPage.querySelectorAll('table tr td')[2].innerHTML;
 
-            document.getElementById("lastUpdated").innerHTML = "<b>Last updated:</b> "+lastUpdatedDate + " <i class='fas fa-info-circle'></i>";
-            console.log(lastUpdatedDate);
-            console.log(lastUpdatedComment);
-            console.log(lastUpdatedAuthor);
-            
-            /*
-            secondRow.forEach(cell => {
-                console.log(cell.textContent); // Output the content of each td element
-            });
-            console.log("secondRow = "+ secondRow.innerHTML);
-            */
+            document.getElementById("updatedDate").innerHTML = "<b>Last updated:</b> "+lastUpdatedDate;
+            document.getElementById("updatedDateInfo").innerHTML = " <i class='bi bi-info-circle' data-toggle='tooltip' data-placement='right' title='"+lastUpdatedComment+"' style='cursor: help;'></i>";
+           
+            //OVERVIEW PAGE
+            // Select the second <p> element within the container
+            var secondParagraph = tempPage.querySelector("#mc-main-content p:nth-of-type(1)");
+            console.log("secondParagraph:", secondParagraph);
+            // Check if the second <p> element exists
+            if (secondParagraph) {
+              // Extract the content of the second <p> element
+              var secondParagraphContent = secondParagraph.textContent.trim();
+              console.log("Second <p> content:", secondParagraphContent);
+            }
+
+            for(i = 0; i < arraySteps.length; i++){
+              //const parserTmp = new DOMParser();
+              const pageTmp = parser.parseFromString(arraySteps[i], 'text/html');
+              //const dropdownI = tempPage.querySelectorAll('.MCDropDown');
+              const dropdownI = pageTmp.querySelectorAll('.MCDropDown');
+
+              //arraySteps[i];
+              //console.log("Step: "+i+", Sub Steps: "+dropdownI.length);
+              //Steps
+              
+              //console.log("i = " + i);
+              //console.log(arraySteps[i].textContent.slice(0, 75));
+              //console.log(arraySteps[i].textContent.startsWith("Step "));
+              if(arraySteps[i].textContent.startsWith("Step")){
+                //console.log(pageTmp.querySelector("dropDownHead").textContent);
+                console.log(arraySteps[i].textContent.slice(0, arraySteps[i].textContent.indexOf(":")));
+              }
+
+            // Convert HTMLCollection to array using Array.from()
+            var topLevelElementsArray = tempPage.getElementById("mc-main-content");
+            //var topLevelElementsArray = Array.from(page.getElementsByTagName("body"));
+            console.log("topLevelElementsArray = " + topLevelElementsArray.length);
+
+            // Iterate through the top-level elements using forEach()
+            //topLevelElementsArray.forEach(function(element) {
+              // Do something with each top-level element
+              //console.log(element.tagName); // Example: log the tag name of each element
+            //});
+
+
+              //Tools
+              if(arraySteps[i].textContent.startsWith("Tools")){
+                const getTmp = arraySteps[i].querySelector('MCDropDownHead');
+                console.log("getTmp = " + getTmp);
+                document.getElementById("nav-profile").innerHTML = arraySteps[i].innerHTML;
+                //console.log(arraySteps[i].querySelector("dropDownBody"));
+                if (getTmp) {
+                  // Option 1: Using the remove() method
+                  getTmp.remove();
+
+                  // Option 2: Manipulating the parent node to remove the element
+                  // paragraph.parentNode.removeChild(paragraph);
+                }
+              }
+            }
 
             
             document.getElementById("nav-home").innerHTML = arraySteps[1].innerHTML;
-            document.getElementById("nav-profile").innerHTML = arraySteps[2].innerHTML;
+            //document.getElementById("nav-profile").innerHTML = arraySteps[2].innerHTML;
             document.getElementById("nav-contact").innerHTML = arraySteps[3].innerHTML;
 
           })
           .catch(error => console.error('Error fetching HTML:', error));
 
-
+          
           //const createPage = () => {}
     </script>
   </body>

@@ -1,0 +1,249 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="favicon.ico">
+
+    <title>Guided Workflows</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/sticky-footer-navbar/">
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/sticky-footer-navbar.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="media/bootstrap-icons/font/bootstrap-icons.min.css">
+  </head>
+
+  <body>
+
+    <header>
+      <!-- Fixed navbar -->
+      <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <a class="navbar-brand" href="#">Guided Workflows</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Link</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link disabled" href="#">Disabled</a>
+            </li>
+          </ul>
+          <form class="form-inline mt-2 mt-md-0">
+            <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+          </form>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Begin page content -->
+    <main role="main" class="container">
+      <div id="stepHeader" style="font-size: 16pt;"></div>
+      <div id="lastUpdated"><span id="updatedDate"></span><span id="updatedDateInfo"><i id="rev-history" class="bi bi-info-circle" data-toggle="tooltip" data-placement="top" title="Tooltip on top"></i></span></div>
+      <div id="stepsNav">
+        <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+          <button type="button" class="btn btn-outline-secondary">Steps: </button>
+          
+          <button type="button" class="btn btn-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Tooltip on top">1</button>
+          
+          <button type="button" class="btn btn-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Tooltip on top">2</button>
+          
+          <div class="btn-group" role="group">
+            <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+              3
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+              <li><a class="dropdown-item" href="#">Dropdown link</a></li>
+              <li><a class="dropdown-item" href="#">Dropdown link</a></li>
+            </ul>
+          </div>
+        </div>
+    </div>
+
+    <div id="stepsBody">
+      <nav>
+        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+          <button class="nav-link" id="nav-overview-tab" data-bs-toggle="tab" data-bs-target="#nav-overview" type="button" role="tab" aria-controls="nav-overview" aria-selected="true">Overview</button>
+
+          <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Steps</button>
+
+          <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Tools</button>
+
+          <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Video</button>
+
+          <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Troubleshooting</button>
+
+          <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Feedback</button>
+        </div>
+      </nav>
+      <div class="tab-content" id="nav-tabContent">
+        <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">1...</div>
+        <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">2...</div>
+        <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">3...</div>
+      </div>
+
+    </div>
+     
+    </main>
+
+    <footer class="footer">
+      <div class="container">
+        <span class="text-muted">Amazon Confidential</span>
+      </div>
+    </footer>
+
+   <div id="htmlPage" style="visibility: hidden;"></div>
+
+    <!-- <script src="js/jquery-3.2.1.slim.min.js"></script>
+    <script src="js/popper.min.js"></script> -->
+    <script src="js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        async function getText(file) {
+          let myObject = await fetch(file);
+          let myText = await myObject.text();
+          const responseContainer = document.getElementsByClassName("MCDropDownHotSpot");
+          console.log(responseContainer.innerHTML);
+          //myDisplay(myText);
+        }
+        
+        //file = "http://localhost:8000/Prod-Blue/Content/AmazonOne/Runbooks/replace-ao-g3-kiosk.htm";
+        //file = "http://localhost:8000/Prod-Blue/Content/AmazonOne/Manuals/Amazon%20One%20Gen%203%20Install%20Guide/install-gen3-amazon-one-countertop-mount.htm";
+        file = "http://localhost:8000/standard/Prod-Blue/Content/Gates/Manuals/Iron%20Lotus/replace-iron-lotus-amazonone.htm";
+        //getText(file);
+
+        let steps = [];
+        let other = [];
+        let tools = [];
+        let parts = [];
+
+        const parser = new DOMParser();
+
+        
+        // Fetch the HTML page
+        fetch(file)
+          .then(response => response.text())
+          .then(html => {
+            const mainTag = document.querySelector('main');
+            
+            
+            const page = parser.parseFromString(html, 'text/html');
+            
+            document.getElementById("htmlPage").innerHTML = page;
+
+            var tempPage = document.createElement("div");
+            tempPage.innerHTML = html;
+
+            //Set H1 on page
+            const h1 = tempPage.querySelector('H1');
+            document.getElementById("stepHeader").innerText = h1.textContent;
+
+            
+            const images = tempPage.getElementsByTagName("img");
+
+            // Iterate through each <img> element
+
+            for (var i = 0; i < images.length; i++) {
+              // Replace the href attribute with a new URL
+              //console.log("images["+i+"].src = " + images[i].src);
+              let imgTmp = new String(images[i].src);
+              imgTmp = imgTmp.substr(imgTmp.indexOf("/Images/"));
+              //console.log("imgTmp = " + imgTmp);
+              imgTmpSrc = "/Prod-Blue/Content/Resources" + imgTmp;
+              images[i].setAttribute("src", imgTmpSrc);
+              //console.log("images["+i+"].src = " + images[i].src);
+              //console.log(images[i].src);
+            }
+            //console.log(tempPage);
+            /**
+            **/
+
+            const dropdownItems = tempPage.querySelectorAll('.MCDropDown');
+            const arraySteps = Array.from(dropdownItems);
+            console.log(arraySteps.length);
+            console.log(arraySteps[0]);
+
+
+
+            const revisionHistory = arraySteps[0];
+            //const row = document.querySelector('table tr'); // Select the table row
+            const cells = revisionHistory.querySelectorAll('td'); // Select all td elements within the row
+            const lastUpdatedDate = tempPage.querySelectorAll('table tr td')[0].innerHTML;
+            const lastUpdatedComment = tempPage.querySelectorAll('table tr td')[1].innerHTML;
+            const lastUpdatedAuthor = tempPage.querySelectorAll('table tr td')[2].innerHTML;
+
+            document.getElementById("updatedDate").innerHTML = "<b>Last updated:</b> "+lastUpdatedDate;
+            document.getElementById("updatedDateInfo").innerHTML = " <i class='bi bi-info-circle' data-toggle='tooltip' data-placement='right' title='"+lastUpdatedComment+"' style='cursor: help;'></i>";
+            // + " <i class='fas fa-info-circle'></i>";
+            //console.log(lastUpdatedDate);
+            //console.log(lastUpdatedComment);
+            //console.log(lastUpdatedAuthor);
+            
+            /*
+            secondRow.forEach(cell => {
+                console.log(cell.textContent); // Output the content of each td element
+            });
+            console.log("secondRow = "+ secondRow.innerHTML);
+            */
+
+            for(i = 0; i < arraySteps.length; i++){
+              //const parserTmp = new DOMParser();
+              const pageTmp = parser.parseFromString(arraySteps[i], 'text/html');
+              //const dropdownI = tempPage.querySelectorAll('.MCDropDown');
+              const dropdownI = pageTmp.querySelectorAll('.MCDropDown');
+
+              //arraySteps[i];
+              //console.log("Step: "+i+", Sub Steps: "+dropdownI.length);
+              //Steps
+              console.log("i = " + i);
+              console.log(arraySteps[i].textContent.slice(0, 75));
+              console.log(arraySteps[i].textContent.startsWith("Step "));
+              if(arraySteps[i].textContent.startsWith("Step")){
+                //console.log(pageTmp.querySelector("dropDownHead").textContent);
+                console.log(arraySteps[i].textContent.slice(0, arraySteps[i].textContent.indexOf(":")));
+              }
+
+
+              //Tools
+              if(arraySteps[i].textContent.startsWith("Tools")){
+                const getTmp = arraySteps[i].querySelector('MCDropDownHead');
+                console.log("getTmp = " + getTmp);
+                document.getElementById("nav-profile").innerHTML = arraySteps[i].innerHTML;
+                //console.log(arraySteps[i].querySelector("dropDownBody"));
+                if (getTmp) {
+                  // Option 1: Using the remove() method
+                  getTmp.remove();
+
+                  // Option 2: Manipulating the parent node to remove the element
+                  // paragraph.parentNode.removeChild(paragraph);
+                }
+              }
+            }
+
+            
+            document.getElementById("nav-home").innerHTML = arraySteps[1].innerHTML;
+            //document.getElementById("nav-profile").innerHTML = arraySteps[2].innerHTML;
+            document.getElementById("nav-contact").innerHTML = arraySteps[3].innerHTML;
+
+          })
+          .catch(error => console.error('Error fetching HTML:', error));
+
+
+          //const createPage = () => {}
+    </script>
+  </body>
+</html>
